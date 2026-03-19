@@ -58,6 +58,32 @@ def init_db():
         )
     ''')
 
+    # Laws table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS leis (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            country_id INTEGER,
+            name TEXT NOT NULL,
+            status TEXT NOT NULL, -- e.g., 'active', 'proposed', 'repealed'
+            impacts TEXT, -- JSON string representing effects on variables
+            FOREIGN KEY (country_id) REFERENCES countries (id)
+        )
+    ''')
+
+    # International Relations table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS relacoes_internacionais (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            country_a_id INTEGER,
+            country_b_id INTEGER,
+            status TEXT NOT NULL, -- e.g., 'peace', 'war', 'alliance'
+            relations_score REAL DEFAULT 50.0,
+            agreements TEXT, -- JSON string of active agreements
+            FOREIGN KEY (country_a_id) REFERENCES countries (id),
+            FOREIGN KEY (country_b_id) REFERENCES countries (id)
+        )
+    ''')
+
     # Event Logs table (for conversations, decisions, tick history)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS event_logs (
