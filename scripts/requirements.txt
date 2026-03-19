@@ -1,1 +1,5 @@
 wikipedia
+fastapi
+uvicorn
+pydantic
+requests
